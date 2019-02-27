@@ -6,7 +6,8 @@ package com.android.samples.kotlin.basic.grammar
  *Date:19-2-26
  */
 class Lesson04_ClassAndObject {
-    //单例写法
+
+    //伴生对象， 单例写法
     companion object {
         @Volatile private var INSTANCE: Lesson04_ClassAndObject? = null
 
@@ -128,7 +129,7 @@ class Lesson04_ClassAndObject {
 
     */
     fun testConstructor(){
-        val runoob =  Runoob("菜鸟教程")
+        val runoob =  Runoob("菜鸟教程") //通过主构造器初始化属性
         println(runoob.siteName)
         println(runoob.url)
         println(runoob.city)
@@ -159,4 +160,178 @@ class Lesson04_ClassAndObject {
             private set
     }
 
+    //9. 次构造器
+    /*类也可以有二级构造函数，需要加前缀 constructor:
+
+    class Person {
+        constructor(parent: Person) {
+            parent.children.add(this)
+        }
+    }
+    如果类有主构造函数，每个次构造函数都要，或直接或间接通过另一个次构造函数代理主构造函数。
+    在同一个类中代理另一个构造函数使用 this 关键字：
+
+    class Person(val name: String) {
+    constructor (name: String, age:Int) : this(name) {
+        // 初始化...
+        }
+    }
+
+    如果一个非抽象类没有声明构造函数(主构造函数或次构造函数)，它会产生一个没有参数的构造函数。构造函数是 public 。
+    如果你不想你的类有公共的构造函数，你就得声明一个空的主构造函数：
+
+    class DontCreateMe private constructor () {
+
+    }
+
+
+    */
+
+    fun testConstructor2(){
+        val runoob =  Runoob2("菜鸟教程", 10000)
+        println(runoob.siteName)
+        println(runoob.url)
+        println(runoob.country)
+        runoob.printTest()
+    }
+
+    class Runoob2  constructor(name: String) {  // 类名为 Runoob
+        // 大括号内是类体构成
+        var url: String = "http://www.runoob.com"
+        var country: String = "CN"
+        var siteName = name
+
+        init {
+            println("初始化网站名: ${name}")
+        }
+        // 次构造函数
+        constructor (name: String, alexa: Int) : this(name) {
+            println("Alexa 排名 $alexa")
+        }
+
+        fun printTest() {
+            println("我是类的函数")
+        }
+    }
+
+    //10. 抽象类
+    /*抽象是面向对象编程的特征之一，类本身，或类中的部分成员，都可以声明为abstract的。抽象成员在类中不存在具体的实现。
+
+    注意：无需对抽象类或抽象成员标注open注解。
+
+    open class Base {
+        open fun f() {}
+    }
+
+    abstract class Derived : Base() {
+        override abstract fun f()
+    }
+    */
+
+    //11. 嵌套类
+
+    /*我们可以把类嵌套在其他类中，看以下实例：
+
+
+    */
+
+    class Outer {                  // 外部类
+        private val bar: Int = 1
+        class Nested {             // 嵌套类
+            fun foo() = 2
+        }
+    }
+
+    fun nestedClass() {
+        val demo = Outer.Nested().foo() // 调用格式：外部类.嵌套类.嵌套类方法/属性
+        println(demo)    // == 2
+    }
+
+    //12. 内部类
+    /*内部类使用 inner 关键字来表示。
+
+    内部类会带有一个对外部类的对象的引用，所以内部类可以访问外部类成员属性和成员函数。
+
+    为了消除歧义，要访问来自外部作用域的 this，我们使用this@label，其中 @label 是一个 代指 this 来源的标签。
+    */
+    class Outer2 {
+        private val bar: Int = 1
+        var v = "成员属性"
+        /**嵌套内部类**/
+        inner class Inner {
+            fun foo() = bar  // 访问外部类成员
+            fun innerTest() {
+                var o = this@Outer2 //获取外部类的成员变量
+                println("内部类可以引用外部类的成员，例如：" + o.v)
+            }
+        }
+    }
+
+    fun innerClass() {
+        val demo = Outer2().Inner().foo()
+        println(demo) //   1
+        val demo2 = Outer2().Inner().innerTest()
+        println(demo2)   // 内部类可以引用外部类的成员，例如：成员属性
+    }
+
+    //13.匿名内部类
+    //使用对象表达式来创建匿名内部类：
+
+    class Test {
+        var v = "成员属性"
+
+        fun setInterFace(test: TestInterFace) {
+            test.test()
+        }
+    }
+
+    /**
+     * 定义接口
+     */
+    interface TestInterFace {
+        fun test()
+    }
+
+    fun anonymousClass() {
+        var test = Test()
+
+        /**
+         * 采用对象表达式来创建接口对象，即匿名内部类的实例。
+         */
+        test.setInterFace(object : TestInterFace {
+            override fun test() {
+                println("对象表达式创建匿名内部类的实例")
+            }
+        })
+    }
+
+    //14. 类的修饰符
+    /*类的修饰符包括 classModifier 和_accessModifier_:
+
+    classModifier: 类属性修饰符，标示类本身特性。
+
+    abstract    // 抽象类
+    final       // 类不可继承，默认属性
+    enum        // 枚举类
+    open        // 类可继承，类默认是final的
+    annotation  // 注解类
+    accessModifier: 访问权限修饰符
+
+    private    // 仅在同一个文件中可见
+    protected  // 同一个文件中或子类可见
+    public     // 所有调用的地方都可见
+    internal   // 同一个模块中可见
+    */
+
+    fun classDecorate(){
+        var classDecorate = ClassDecorate()
+    }
+
+    class ClassDecorate{
+        private fun foo() {} // 在 example.kt 内可见
+
+        public var bar: Int = 5 // 该属性随处可见
+
+        internal val baz = 6    // 相同模块内可见
+    }
 }

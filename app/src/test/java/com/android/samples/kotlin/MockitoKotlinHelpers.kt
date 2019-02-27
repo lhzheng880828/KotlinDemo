@@ -1,8 +1,6 @@
 package com.android.samples.kotlin
 
-import com.android.samples.kotlin.basic.grammar.Lesson01_BasicLangGrammar
-import com.android.samples.kotlin.basic.grammar.Lesson02_BasicDataType
-import com.android.samples.kotlin.basic.grammar.Lesson03_ConditionAndLoop
+import com.android.samples.kotlin.basic.grammar.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -25,6 +23,10 @@ class MockitoKotlinHelpers {
     var dataType: Lesson02_BasicDataType = Lesson02_BasicDataType.getInstance()
 
     var conditionAndLoop: Lesson03_ConditionAndLoop = Lesson03_ConditionAndLoop.getInstance()
+
+    var classAndObj: Lesson04_ClassAndObject = Lesson04_ClassAndObject.getInstance()
+
+    var classInheritanceAndInterface: Lesson05_ClassInheritanceAndInterface = Lesson05_ClassInheritanceAndInterface.getInstance()
 
     @Before
     fun setUp() {
@@ -186,6 +188,59 @@ class MockitoKotlinHelpers {
         conditionAndLoop.labelSample()
         conditionAndLoop.labelReturnSample()
     }
+
+    //23. 构造函数
+    @Test
+    fun constructorTest(){
+        classAndObj.testConstructor()
+        classAndObj.testConstructor2()
+    }
+
+    //24. 匿名内部类
+    @Test
+    fun anonymousClassTest(){
+        classAndObj.anonymousClass()
+    }
+
+    //25. 继承子类有主构造函数
+    @Test
+    fun classInheriTest(){
+        classInheritanceAndInterface.classInheritanceTest1()
+        classInheritanceAndInterface.testNoMainConstrutor()
+    }
+
+    //26. 继承多个类的同一个方法
+    @Test
+    fun testMultiFun(){
+        classInheritanceAndInterface.extendsMultiClass()
+    }
+
+    //27. 复写类属性
+    @Test
+    fun testFiledOverride(){
+        classInheritanceAndInterface.testForAttrOverride()
+    }
+
+    //28.接口测试
+    @Test
+    fun testInterface(){
+        classInheritanceAndInterface.mainInterface()
+    }
+
+    //29. 接口属性测试
+
+    @Test
+    fun testInterfaceAttr(){
+        classInheritanceAndInterface.mainTestInterfAttr()
+    }
+
+    //30. 接口函数重写
+    @Test
+    fun testMethodOverride(){
+        classInheritanceAndInterface.mainTestMethodOverride()
+    }
+
+
 
     @After
     fun afterTest(){
