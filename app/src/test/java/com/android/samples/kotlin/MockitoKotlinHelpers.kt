@@ -28,6 +28,14 @@ class MockitoKotlinHelpers {
 
     var classInheritanceAndInterface: Lesson05_ClassInheritanceAndInterface = Lesson05_ClassInheritanceAndInterface.getInstance()
 
+    var kotlinExtend: Lesson06_KotlinExtend = Lesson06_KotlinExtend.getInstance()
+
+    var dataClass: Lesson07_DataClassAndSealedCLass = Lesson07_DataClassAndSealedCLass.getInstance()
+
+    var genericType: Lesson08_GenericType = Lesson08_GenericType.getInstance()
+
+    var enumClass: Lesson09_EnumClass = Lesson09_EnumClass.getInstance()
+
     @Before
     fun setUp() {
         print("before test\n")
@@ -238,6 +246,45 @@ class MockitoKotlinHelpers {
     @Test
     fun testMethodOverride(){
         classInheritanceAndInterface.mainTestMethodOverride()
+    }
+
+    //31. Kotlin扩展函数
+    @Test
+    fun testKotlinExtend(){
+        //user类添加扩展函数
+        kotlinExtend.userExtend()
+        //为MutableList添加扩展函数
+        kotlinExtend.mutableListExtend()
+        //扩展函数是静态解析的
+        kotlinExtend.staticParse()
+        //扩展函数和成员函数同名，则有限调用成员函数
+        kotlinExtend.extendFunSameWithMemFun()
+        //扩展一个空对象
+        kotlinExtend.extendNullObj()
+        //扩展属性
+        kotlinExtend.extendProperty()
+        //扩展伴生对象
+        kotlinExtend.companionObjExtend()
+
+        //扩展声明为成员
+        kotlinExtend.extendDeclareMem()
+
+        //扩展声明为成员，对分发接受者是虚拟的
+        kotlinExtend.testExtendOpen()
+
+        //
+    }
+
+    //32. 伴随类的补充
+    @Test
+    fun testKotlinSupple(){
+        kotlinExtend.testClassComp()
+    }
+
+    //33.数据类实现
+    @Test
+    fun testDataClass(){
+        dataClass.testDataClass()
     }
 
 

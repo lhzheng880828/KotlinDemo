@@ -37,7 +37,7 @@ class Lesson01_BasicLangGrammar {
     //3.2  表达式作为函数体，返回类型自动推断：
     fun sum1(a: Int, b: Int) = a + b
 
-    //3.3 public 方法则必须明确写出返回类型
+    //3.3 public 方法则必须明确写出返回类型, 单表达式函数
     public fun sum2(a: Int, b: Int): Int = a + b
 
     //3.4  无返回值的函数(类似Java中的void)：
@@ -58,6 +58,23 @@ class Lesson01_BasicLangGrammar {
         }
     }
 
+    fun <T> asList(vararg ts: T): List<T> {
+        val result = ArrayList<T>()
+        for (t in ts) // ts is an Array
+            result.add(t)
+        return result
+    }
+
+    fun testVars(){
+        vars(1,2,3)
+        asList(1,3,2)
+
+        //我们调用 vararg-函数时，我们可以一个接一个地传参，例如 asList(1, 2, 3)，或者，如果我们已经有一个数组并
+        //希望将其内容传给该函数，我们使用伸展（spread）操作符（在数组前面加 *）：
+        val a = arrayOf(1, 2, 3)
+        val list = asList(-1, 0, *a, 4)
+    }
+
     //3.7 lambda(匿名函数)
     //lambda表达式使用实例：
 
@@ -65,6 +82,107 @@ class Lesson01_BasicLangGrammar {
         val sumLambda: (Int, Int) -> Int = {x,y -> x+y}
         println(sumLambda(a,b))  // 输出 3
     }
+
+    //3.8 默认参数
+    //函数参数可以有默认值，当省略相应的参数时使用默认值。与其他语言相比，这可以减少重载数量：
+    fun read(b: Array<Byte>, off: Int = 0, len: Int = b.size) {  }
+    //默认值通过类型后面的 = 及给出的值来定义。
+    //覆盖方法总是使用与基类型方法相同的默认参数值。 当覆盖一个带有默认参数值的方法时，必须从签名中省略默认参数值：
+    open class A {
+        open fun foo(i: Int = 10) {  }
+    }
+
+    class B : A() {
+        override fun foo(i: Int) {  }  // 不能有默认值
+    }
+    //如果一个默认参数在一个无默认值的参数之前，那么该默认值只能通过使用命名参数调用该函数来使用：
+    fun foo(bar: Int = 0, baz: Int) { }
+    //如果在默认参数之后的最后一个参数是 lambda 表达式，那么它既可以作为命名参数在括号内传入，也可以在括号外传入：
+    fun foo(bar: Int = 0, baz: Int = 1, qux: () -> Unit) {  }
+    fun testDefParam(){
+        //调用带有默认参数的函数
+        foo(baz = 1) // 使用默认值 bar = 0
+
+        foo(1) { println("hello") }     // 使用默认值 baz = 1
+        foo(qux = { println("hello") }) // 使用两个默认值 bar = 0 与 baz = 1
+        foo { println("hello") }        // 使用两个默认值 bar = 0 与 baz = 1
+    }
+
+    //3.9 命名参数
+    //可以在调用函数时使用命名的函数参数。当一个函数有大量的参数或默认参数时这会非常方便。
+    //给定以下函数：
+    fun reformat(str: String,
+                 normalizeCase: Boolean = true,
+                 upperCaseFirstLetter: Boolean = true,
+                 divideByCamelHumps: Boolean = false,
+                 wordSeparator: Char = ' ') {
+
+    }
+
+    fun testNamedParam(){
+        //我们可以使用默认参数来调用它：
+        val str= "abvc"
+        reformat(str)
+        //然而，当使用非默认参数调用它时，该调用看起来就像：
+
+
+        reformat(str, true, true, false, '_')
+        //使用命名参数我们可以使代码更具有可读性：
+
+
+        reformat(str,
+                normalizeCase = true,
+                upperCaseFirstLetter = true,
+                divideByCamelHumps = false,
+                wordSeparator = '_'
+        )
+        //并且如果我们不需要所有的参数：
+        reformat(str, wordSeparator = '_')
+        //当一个函数调用混用位置参数与命名参数时，所有位置参数都要放在第一个命名参数之前。
+        // 例如，允许调用 f(1, y = 2) 但不允许 f(x = 1, 2)。
+    }
+
+    //可以通过使用星号操作符将可变数量参数（vararg） 以命名形式传入：
+
+    /*fun foo1(vararg strings: String) {
+        println("abc")
+    }
+    ​
+    fun testVararg(){
+        foo1(strings = *arrayOf("as", "b", "c"))
+    }*/
+   // 请注意，在调用 Java 函数时不能使用命名参数语法，因为 Java 字节码并不总是保留函数参数的名称。
+
+    //3.10 函数作用域
+    //在 Kotlin 中函数可以在文件顶层声明，这意味着你不需要像一些语言如 Java、C# 或 Scala 那样需要创建一个类来保存一个函数。
+    //此外除了顶层函数，Kotlin 中函数也可以声明在局部作用域、作为成员函数以及扩展函数。
+    //3.10.1 局部函数
+    //Kotlin 支持局部函数，即一个函数在另一个函数内部：
+/*
+
+    fun dfs(graph: Graph) {
+        fun dfs(current: Vertex, visited: Set<Vertex>) {
+            if (!visited.add(current)) return
+            for (v in current.neighbors)
+                dfs(v, visited)
+        }
+
+        dfs(graph.vertices[0], HashSet())
+    }
+
+    fun dfs(graph: Graph) {
+        val visited = HashSet<Vertex>()
+        fun dfs(current: Vertex) {
+            if (!visited.add(current)) return
+            for (v in current.neighbors)
+                dfs(v)
+        }
+
+        dfs(graph.vertices[0])
+    }
+
+*/
+    //************更多函数用法参考官网 https://www.kotlincn.net/docs/reference/functions.html***//
 
     //单例写法
     companion object {
