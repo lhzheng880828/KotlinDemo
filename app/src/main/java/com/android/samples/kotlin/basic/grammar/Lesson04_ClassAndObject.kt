@@ -18,11 +18,18 @@ class Lesson04_ClassAndObject {
                 }
     }
 
-    //1. 定义一个空类
+    //1. 类
+    //Kotlin 中使用关键字 class 声明类
+    /*
+    class Invoice { ... }
+    */
+    //类声明由类名、类头（指定其类型参数、主构造函数等）以及由花括号包围的类体构成。类头与类体都是可选的；
+    //如果一个类没有类体，可以省略花括号。
+    //1.1 定义一个空类
     class Empty
 
     //2.定义一个类
-    class Runoob constructor(name: String) {
+    class Runoob constructor(name: String) {//包含主构造函数
         //(1) 定义属性
         var name: String = name
         var url: String = "http://www.runoob.com"
@@ -39,6 +46,9 @@ class Lesson04_ClassAndObject {
             println("我是类的函数")
         }
     }
+
+    //在实例初始化期间，初始化块按照它们出现在类体中的顺序执行，与属性初始化器交织在一起, init代码块可以认为是主构造函数的
+    //一部分。
 
     //3. 类实例化
     val site = Runoob("ZhangSan") // Kotlin 中没有 new 关键字
@@ -126,7 +136,9 @@ class Lesson04_ClassAndObject {
     }
 
     如果构造器有注解，或者有可见度修饰符，这时constructor关键字是必须的，注解和修饰符要放在它之前。
-
+    例如：
+    class Person private constructor(firstName: String) {}
+    class Person @Inject constructor(firstName: String) {}
     */
     fun testConstructor(){
         val runoob =  Runoob("菜鸟教程") //通过主构造器初始化属性

@@ -36,6 +36,8 @@ class MockitoKotlinHelpers {
 
     var enumClass: Lesson09_EnumClass = Lesson09_EnumClass.getInstance()
 
+    var coroutine: Lesson12_Coroutine = Lesson12_Coroutine.getInstance()
+
     @Before
     fun setUp() {
         print("before test\n")
@@ -285,6 +287,31 @@ class MockitoKotlinHelpers {
     @Test
     fun testDataClass(){
         dataClass.testDataClass()
+    }
+
+
+    //40. 测试协程
+    @Test
+    fun testCoroutine(){
+        coroutine.firstCoroutineProgram()
+
+        coroutine.testThreadAndSleep()
+
+        coroutine.testBlock()
+
+        coroutine.delegateMainFun()
+    }
+
+    //41. 作用域构建器
+    @Test
+    fun testScopeBuilder(){
+        coroutine.testScopeBuilder()
+
+        //协程很轻量
+        coroutine.testLightCoroutine()
+
+        //全局协程，守护线程
+        coroutine.testGlobalCoroutine()
     }
 
 

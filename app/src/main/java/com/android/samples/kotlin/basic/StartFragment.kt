@@ -1,5 +1,6 @@
 package com.android.samples.kotlin.basic
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.android.samples.kotlin.R
 import com.android.samples.kotlin.basic.observability.ui.UserActivity
+import com.android.samples.kotlin.basic.weather.TestMainActivity
 
 class StartFragment : Fragment() {
 
@@ -48,6 +50,11 @@ class StartFragment : Fragment() {
 
         view?.findViewById<Button>(R.id.nav_user)?.setOnClickListener {
             view?.let { startUserAct(activity as AppCompatActivity) } }
+
+        view?.findViewById<Button>(R.id.test_start_act)?.setOnClickListener { view?.let {
+            if(activity is Context)
+            TestMainActivity.startAct(activity as Context) }
+        }
     }
 
     private fun startUserAct(context: AppCompatActivity){

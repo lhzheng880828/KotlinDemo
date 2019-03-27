@@ -47,13 +47,13 @@ android {
 
 dependencies {
     // See versions.gradle file
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Support libraries
     implementation deps.support.app_compat
     implementation deps.support.v4
     implementation deps.support.design
     implementation deps.support.fragment
+    implementation deps.support.recyclerview
     implementation deps.constraint_layout
     // Architecture components
     implementation deps.lifecycle.runtime
@@ -65,15 +65,10 @@ dependencies {
     // RxJava
     implementation deps.rx_android
     implementation deps.rxjava2
-
     implementation deps.kotlin.stdlib
-
-
     // Navigation
-
-    implementation "android.arch.navigation:navigation-fragment:1.0.0-rc01"
-    implementation "android.arch.navigation:navigation-ui:1.0.0-rc01"
-
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0-rc01'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0-rc01'
     // Dependencies for local unit tests
     testImplementation deps.junit
     testImplementation deps.mockito.all
@@ -81,7 +76,6 @@ dependencies {
     testImplementation deps.arch_core.testing
     testImplementation deps.kotlin.stdlib
     testImplementation deps.kotlin.test
-
     // Android Testing Support Library's runner and rules
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.atsl.rules
@@ -91,6 +85,7 @@ dependencies {
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito.core, { exclude group: 'net.bytebuddy' }
     androidTestImplementation deps.dexmaker
-
     //sss
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
 }

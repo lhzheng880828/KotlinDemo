@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.samples.kotlin">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".SampleApp"
@@ -21,7 +22,12 @@
         <activity android:name=".basic.observability.ui.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".basic.weather.TestMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
